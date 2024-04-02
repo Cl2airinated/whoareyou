@@ -1,15 +1,14 @@
 package whoareyou;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class Main extends JFrame{
-	private static final int WIDTH =800;
-	private static final int HEIGHT=600;
 	
 	public Main () {
-		super("Texas Flag");
-		setSize(WIDTH, HEIGHT);
+		super("who are you");
+		setSize(Toolkit.getDefaultToolkit().getScreenSize().width,Toolkit.getDefaultToolkit().getScreenSize().height);
 		Game play = new Game();
 		((Component) play).setFocusable(true);
 		setBackground(Color.BLACK);
