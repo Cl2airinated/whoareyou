@@ -12,7 +12,9 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 	private BufferedImage back; 
 	private int key; 
 	private char screen;
-
+	private Buttons test1;
+	private Buttons test2;
+	private int help;
 
 	
 	public Game() {
@@ -20,7 +22,9 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		this.addKeyListener(this);
 		key =-1; 
 		screen = 'S';
-	
+		test1 = new Buttons(400,200,100,100,Color.CYAN);
+		test2 = new Buttons(400,400,100,100,Color.CYAN);
+		help = 1;
 	}
 
 	public void screen(Graphics g2d) {
@@ -29,6 +33,13 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 			drawStartScreen(g2d);
 			break;
 		case 'G':
+			g2d.setColor(Color.WHITE);
+		g2d.drawString("game", 500, 400);
+		break;
+		case 'C':
+		g2d.setColor(Color.WHITE);
+		g2d.drawString("settings", 500, 400);
+		break;
 		}
 	}
 	
@@ -71,7 +82,21 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 	public void drawStartScreen(Graphics g2d) {
 		g2d.setColor(Color.WHITE);
 		g2d.drawString("start screen placeholder", (getSize().width)/2, (getSize().height)/2);
-		System.out.print("pleaseee");
+		g2d.setColor(test1.getC());
+		g2d.fillRect(test1.getX(), test1.getY(), test1.getWidth(),test1.getHeight());
+		g2d.setColor(test2.getC());
+		g2d.fillRect(test2.getX(), test2.getY(), test2.getWidth(),test2.getHeight());
+		if(help==1) {
+			test1.setC(Color.WHITE);
+		}
+		else {
+			test1.setC(Color.CYAN);
+		}
+		if(help==2) {
+			test2.setC(Color.WHITE);
+		}else {
+			test2.setC(Color.CYAN);
+		}
 	}
 
 	
@@ -95,8 +120,26 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		
 		key= e.getKeyCode();
 		System.out.println(key);
-		
-		
+		if(key==10) {
+			if(help==1) {
+				screen='G';
+				
+			}
+			else if(help==2) {
+				screen='C';
+			}
+		}
+		if(screen=='S') {
+			if(key==40) {
+				help++;
+				System.out.println(help);
+			}
+			else if(key==38) {
+				help--;
+				System.out.println(help);
+			}
+			
+		}
 		
 	
 	}
