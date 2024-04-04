@@ -14,6 +14,7 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 	private char screen;
 	private Buttons test1;
 	private Buttons test2;
+	private Buttons test3;
 	private int help;
 
 	
@@ -22,8 +23,9 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		this.addKeyListener(this);
 		key =-1; 
 		screen = 'S';
-		test1 = new Buttons(400,200,100,100,Color.CYAN);
-		test2 = new Buttons(400,400,100,100,Color.CYAN);
+		test1 = new Buttons("play",100,150,Color.CYAN);
+		test2 = new Buttons("credits",100,200,Color.CYAN);
+		test3 = new Buttons("update log",100,250,Color.CYAN);
 		help = 1;
 	}
 
@@ -38,8 +40,12 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		break;
 		case 'C':
 		g2d.setColor(Color.WHITE);
-		g2d.drawString("settings", 500, 400);
+		g2d.drawString("credits", 500, 400);
 		break;
+		case 'U':
+		g2d.setColor(Color.WHITE);
+		g2d.drawString("updates", 500, 400);
+		break;	
 		}
 	}
 	
@@ -83,9 +89,11 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		g2d.setColor(Color.WHITE);
 		g2d.drawString("start screen placeholder", (getSize().width)/2, (getSize().height)/2);
 		g2d.setColor(test1.getC());
-		g2d.fillRect(test1.getX(), test1.getY(), test1.getWidth(),test1.getHeight());
+		g2d.drawString(test1.getS(), test1.getX(), test1.getY());
 		g2d.setColor(test2.getC());
-		g2d.fillRect(test2.getX(), test2.getY(), test2.getWidth(),test2.getHeight());
+		g2d.drawString(test2.getS(), test2.getX(), test2.getY());
+		g2d.setColor(test3.getC());
+		g2d.drawString(test3.getS(), test3.getX(), test3.getY());
 		if(help==1) {
 			test1.setC(Color.WHITE);
 		}
@@ -96,6 +104,11 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 			test2.setC(Color.WHITE);
 		}else {
 			test2.setC(Color.CYAN);
+		}
+		if(help==3) {
+			test3.setC(Color.WHITE);
+		}else {
+			test3.setC(Color.CYAN);
 		}
 	}
 
@@ -127,6 +140,9 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 			}
 			else if(help==2) {
 				screen='C';
+			}
+			else if(help==3) {
+				screen='U';
 			}
 		}
 		if(screen=='S') {
