@@ -13,13 +13,12 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 
 	private ArrayList <Ingredients> ingredients;
 	private BufferedImage back; 
-	private Buttons test1;
-	private Buttons test2;
-	private Buttons test3;
+	private Buttons play, credits, ul, scereal, scake;
 	private int key; 
 	private int help;
 	private char screen;
-	private Ingredients milk;
+	private Ingredients milk, cereal, pepper;
+	private String dish;
 	
 
 	
@@ -28,24 +27,37 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		this.addKeyListener(this);
 		key =-1; 
 		screen = 'S';
-		test1 = new Buttons("play",100,150,Color.CYAN);
-		test2 = new Buttons("credits",100,200,Color.CYAN);
-		test3 = new Buttons("update log",100,250,Color.CYAN);
+		play = new Buttons("play",100,150,Color.CYAN);
+		credits = new Buttons("credits",100,200,Color.CYAN);
+		ul = new Buttons("update log",100,250,Color.CYAN);
+		scereal = new Buttons ("cereal", 100,150,Color.CYAN);
+		scake = new Buttons ("cake", 100,200,Color.CYAN);
 		help = 1;
 		milk = new Ingredients(400,400,20,40,Color.PINK);
+		cereal = new Ingredients(700,420,50,20,Color.YELLOW);
+		pepper = new Ingredients(490,400,20,40,Color.RED);
 		ingredients = new ArrayList<Ingredients>();
+		dish = "dish";
 	}
 
 	public void screen(Graphics g2d) {
 		switch (screen) {
 		case 'S':
 			drawStartScreen(g2d);
-			ingredients.add(milk);
-			System.out.println(ingredients.get(1));
+			//test
+			
+			break;
+		case 'T':
+			g2d.setColor(Color.WHITE);
+			g2d.drawString("selection",500, 400);
+			selectionScreen(g2d);
 			break;
 		case 'G':
 			g2d.setColor(Color.WHITE);
 		g2d.drawString("game", 500, 400);
+//		ArrayTest(g2d);
+		getIngredients();
+		drawIngredients(g2d);
 		break;
 		case 'C':
 		g2d.setColor(Color.WHITE);
@@ -97,30 +109,70 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 	public void drawStartScreen(Graphics g2d) {
 		g2d.setColor(Color.WHITE);
 		g2d.drawString("start screen placeholder", (getSize().width)/2, (getSize().height)/2);
-		g2d.setColor(test1.getC());
-		g2d.drawString(test1.getS(), test1.getX(), test1.getY());
-		g2d.setColor(test2.getC());
-		g2d.drawString(test2.getS(), test2.getX(), test2.getY());
-		g2d.setColor(test3.getC());
-		g2d.drawString(test3.getS(), test3.getX(), test3.getY());
+		g2d.setColor(play.getC());
+		g2d.drawString(play.getS(), play.getX(), play.getY());
+		g2d.setColor(credits.getC());
+		g2d.drawString(credits.getS(), credits.getX(), credits.getY());
+		g2d.setColor(ul.getC());
+		g2d.drawString(ul.getS(), ul.getX(), ul.getY());
 		if(help==1) {
-			test1.setC(Color.WHITE);
+			play.setC(Color.WHITE);
 		}
 		else {
-			test1.setC(Color.CYAN);
+			play.setC(Color.CYAN);
 		}
 		if(help==2) {
-			test2.setC(Color.WHITE);
+			credits.setC(Color.WHITE);
 		}else {
-			test2.setC(Color.CYAN);
+			credits.setC(Color.CYAN);
 		}
 		if(help==3) {
-			test3.setC(Color.WHITE);
+			ul.setC(Color.WHITE);
 		}else {
-			test3.setC(Color.CYAN);
+			ul.setC(Color.CYAN);
 		}
 	}
 
+	public void selectionScreen(Graphics g2d) {
+		g2d.setColor(scereal.getC());
+		g2d.drawString(scereal.getS(), scereal.getX(), scereal.getY());
+		g2d.setColor(scake.getC());
+		g2d.drawString(scake.getS(), scake.getX(), scake.getY());
+		if (help==1) {
+			scereal.setC(Color.WHITE);
+		} else
+			scereal.setC(Color.CYAN);
+		if(help==2) {
+			scake.setC(Color.WHITE);
+		}else
+			scake.setC(Color.CYAN);
+	}
+	public void drawIngredients(Graphics g2d) {
+		for(int i = 0; i < ingredients.size(); i++) {
+				g2d.setColor(ingredients.get(i).getC());
+				g2d.fillRect(ingredients.get(i).getX(), ingredients.get(i).getY(), ingredients.get(i).getWidth(), ingredients.get(i).getHeight());
+				System.out.println("milk");
+			}
+		}
+	public void getIngredients() {
+		if(dish=="cereal") {
+			ingredients.add(milk);
+			ingredients.add(cereal);
+			
+		}
+		if(dish=="test") {
+			ingredients.add(pepper);
+		}
+	}
+	//	public void ArrayTest(Graphics g2d) {
+//		for(int i = 0; i < ingredients.size(); i++) {
+//			if (ingredients.get(i)==milk) {
+//				g2d.setColor(ingredients.get(i).getC());
+//				g2d.fillRect(ingredients.get(i).getX(), ingredients.get(i).getY(), ingredients.get(i).getWidth(), ingredients.get(i).getHeight());
+//				System.out.println("milk");
+//			}
+//		}
+//	}
 	
 
 
@@ -144,17 +196,20 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		System.out.println(key);
 		if(key==10) {
 			if(help==1) {
-				screen='G';
+				screen='T';
+				help=1;
 				
 			}
 			else if(help==2) {
 				screen='C';
+				help=1;
 			}
 			else if(help==3) {
 				screen='U';
+				help=1;
 			}
 		}
-		if(screen=='S') {
+		if(screen=='S'||screen=='T') {
 			if(key==40) {
 				help++;
 				System.out.println(help);
@@ -165,6 +220,7 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 			}
 			
 		}
+		
 		
 	
 	}
