@@ -2,20 +2,24 @@ package whoareyou;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage; 
-import java.awt.event.*; 
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
+import java.util.*;
+import java.awt.event.MouseListener;
 
 
 public class Game  extends JPanel implements Runnable, KeyListener{
 
-	
+	private ArrayList <Ingredients> ingredient;
 	private BufferedImage back; 
-	private int key; 
-	private char screen;
 	private Buttons test1;
 	private Buttons test2;
 	private Buttons test3;
+	private int key; 
 	private int help;
+	private char screen;
+	
 
 	
 	public Game() {
@@ -27,6 +31,7 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		test2 = new Buttons("credits",100,200,Color.CYAN);
 		test3 = new Buttons("update log",100,250,Color.CYAN);
 		help = 1;
+		ingredient = new ArrayList<Ingredients>();
 	}
 
 	public void screen(Graphics g2d) {
@@ -47,6 +52,12 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		g2d.drawString("updates", 500, 400);
 		break;	
 		}
+	}
+	public ArrayList <Ingredients> setIngredients(){
+		ArrayList <Ingredients> temp = new ArrayList <Ingredients>();
+			
+		}
+		return temp;
 	}
 	
 	public void run()
