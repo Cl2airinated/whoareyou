@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
 
 public class Game  extends JPanel implements Runnable, KeyListener{
 
-	private ArrayList <Ingredients> ingredient;
+	private ArrayList <Ingredients> ingredients;
 	private BufferedImage back; 
 	private Buttons test1;
 	private Buttons test2;
@@ -19,6 +19,7 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 	private int key; 
 	private int help;
 	private char screen;
+	private Ingredients milk;
 	
 
 	
@@ -31,13 +32,16 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		test2 = new Buttons("credits",100,200,Color.CYAN);
 		test3 = new Buttons("update log",100,250,Color.CYAN);
 		help = 1;
-		ingredient = new ArrayList<Ingredients>();
+		milk = new Ingredients(400,400,20,40,Color.PINK);
+		ingredients = new ArrayList<Ingredients>();
 	}
 
 	public void screen(Graphics g2d) {
 		switch (screen) {
 		case 'S':
 			drawStartScreen(g2d);
+			ingredients.add(milk);
+			System.out.println(ingredients.get(1));
 			break;
 		case 'G':
 			g2d.setColor(Color.WHITE);
@@ -53,13 +57,7 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		break;	
 		}
 	}
-	public ArrayList <Ingredients> setIngredients(){
-		ArrayList <Ingredients> temp = new ArrayList <Ingredients>();
-			
-		}
-		return temp;
-	}
-	
+
 	public void run()
 	   {
 	   	try
