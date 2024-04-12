@@ -160,7 +160,7 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 			ingredients.add(cereal);
 			
 		}
-		if(dish=="test") {
+		if(dish=="cake") {
 			ingredients.add(pepper);
 		}
 	}
@@ -194,20 +194,35 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		
 		key= e.getKeyCode();
 		System.out.println(key);
-		if(key==10) {
-			if(help==1) {
-				screen='T';
-				help=1;
-				
+		if (screen=='S') {
+			if(key==10) {
+				if(help==1) {
+					screen='T';
+					help=1;
+					
+				}
+				else if(help==2) {
+					screen='C';
+					help=1;
+				}
+				else if(help==3) {
+					screen='U';
+					help=1;
+				}
 			}
-			else if(help==2) {
-				screen='C';
-				help=1;
-			}
-			else if(help==3) {
-				screen='U';
-				help=1;
-			}
+		} else if (screen=='T') {
+			if(key==10) {
+				screen = 'G';
+				if(help==1) {
+					dish = "cereal";
+					help=1;
+					
+				}
+				else if(help==2) {
+					dish = "cake";
+					help=1;
+				}
+			}		
 		}
 		if(screen=='S'||screen=='T') {
 			if(key==40) {
