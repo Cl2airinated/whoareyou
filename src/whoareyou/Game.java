@@ -12,10 +12,10 @@ import java.awt.event.MouseListener;
 public class Game  extends JPanel implements Runnable, KeyListener{
 
 	private ArrayList <Ingredients> ingredients;
+	private ArrayList <Tap> tap;
 	private BufferedImage back; 
 	private Buttons play, credits, ul, scereal, scake;
-	private int key; 
-	private int help;
+	private int key, help; 
 	private char screen;
 	private Ingredients milk, cereal, pepper;
 	private String dish;
@@ -33,10 +33,11 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		scereal = new Buttons ("cereal", 100,150,Color.CYAN);
 		scake = new Buttons ("cake", 100,200,Color.CYAN);
 		help = 1;
-		milk = new Ingredients(400,400,20,40,Color.PINK);
-		cereal = new Ingredients(700,420,50,20,Color.YELLOW);
-		pepper = new Ingredients(490,400,20,40,Color.RED);
+		milk = new Ingredients("milk.png",400,400,100,100);
+		cereal = new Ingredients("cerealbox.png",700,420,100,100);
+		pepper = new Ingredients("placeholder.png",490,400,20,40);
 		ingredients = new ArrayList<Ingredients>();
+		tap = setTap();
 		dish = "dish";
 	}
 
@@ -58,6 +59,7 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 //		ArrayTest(g2d);
 		getIngredients();
 		drawIngredients(g2d);
+		cookSequence(g2d);
 		break;
 		case 'C':
 		g2d.setColor(Color.WHITE);
@@ -67,6 +69,24 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		g2d.setColor(Color.WHITE);
 		g2d.drawString("updates", 500, 400);
 		break;	
+		}
+	}
+	
+	public ArrayList <Tap> setTap(){
+		ArrayList <Tap> temp = new ArrayList <Tap>();
+		int x=100;
+		int y=100;
+			for(int i=0; i<4; i++){
+				temp.add(new Tap(i+x,y,20,20, Color.WHITE));
+				x+=60;
+			}
+		return temp;
+	}
+	
+	public void drawTap(Graphics g2d) {
+		for (Tap a: tap) {
+			g2d.setColor(a.getC());
+			g2d.fillRect(a.getX(), a.getY(), a.getWidth(), a.getHeight());
 		}
 	}
 
@@ -132,7 +152,7 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 			ul.setC(Color.CYAN);
 		}
 	}
-
+	
 	public void selectionScreen(Graphics g2d) {
 		g2d.setColor(scereal.getC());
 		g2d.drawString(scereal.getS(), scereal.getX(), scereal.getY());
@@ -149,8 +169,7 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 	}
 	public void drawIngredients(Graphics g2d) {
 		for(int i = 0; i < ingredients.size(); i++) {
-				g2d.setColor(ingredients.get(i).getC());
-				g2d.fillRect(ingredients.get(i).getX(), ingredients.get(i).getY(), ingredients.get(i).getWidth(), ingredients.get(i).getHeight());
+				g2d.drawImage(new ImageIcon (ingredients.get(i).getS()).getImage(), ingredients.get(i).getX(), ingredients.get(i).getY(), ingredients.get(i).getWidth(), ingredients.get(i).getHeight(), getFocusCycleRootAncestor());
 				System.out.println("milk");
 			}
 		}
@@ -164,15 +183,14 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 			ingredients.add(pepper);
 		}
 	}
-	//	public void ArrayTest(Graphics g2d) {
-//		for(int i = 0; i < ingredients.size(); i++) {
-//			if (ingredients.get(i)==milk) {
-//				g2d.setColor(ingredients.get(i).getC());
-//				g2d.fillRect(ingredients.get(i).getX(), ingredients.get(i).getY(), ingredients.get(i).getWidth(), ingredients.get(i).getHeight());
-//				System.out.println("milk");
-//			}
-//		}
-//	}
+	public void cookSequence(Graphics g2d) {
+		if (ingredients.get(0)==milk) {
+			System.out.println("Milkkkk");
+			g2d.setColor(Color.WHITE);
+			drawTap(g2d);
+			g2d.drawString("press the up arrow to pour", 500, 300);
+		}
+	}
 	
 
 
@@ -234,6 +252,11 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 				System.out.println(help);
 			}
 			
+		}
+		if (screen=='G') {
+			if (key==38) {
+				
+			}
 		}
 		
 		
