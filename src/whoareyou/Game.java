@@ -6,39 +6,77 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.awt.event.MouseListener;
 
 
-public class Game  extends JPanel implements Runnable, KeyListener{
+public class Game  extends JPanel implements Runnable, KeyListener, MouseListener,MouseMotionListener{
 
-	private ArrayList <Ingredients> ingredients;
+	private ArrayList <Recicpes> rec;
 	private ArrayList <Tap> tap;
 	private BufferedImage back; 
 	private Buttons play, credits, ul, scereal, scake;
-	private int key, help; 
+	private int key, help, grr, adding; 
 	private char screen;
-	private Ingredients milk, cereal, pepper;
-	private String dish;
-	
+	private Ingredients milk, cereal, cend;
+	private int dish;
+	private boolean tapper, stopmult,first;
 
 	
 	public Game() {
 		new Thread(this).start();	
 		this.addKeyListener(this);
+		this.addMouseListener(this);
+		this.addMouseMotionListener(this);
+
 		key =-1; 
+		grr=600;
 		screen = 'S';
 		play = new Buttons("play",100,150,Color.CYAN);
 		credits = new Buttons("credits",100,200,Color.CYAN);
 		ul = new Buttons("update log",100,250,Color.CYAN);
-		scereal = new Buttons ("cereal", 100,150,Color.CYAN);
-		scake = new Buttons ("cake", 100,200,Color.CYAN);
+//		scereal = new Buttons ("cereal", 100,150,Color.CYAN);
+//		scake = new Buttons ("cake", 100,200,Color.CYAN);
 		help = 1;
-		milk = new Ingredients("milk.png",400,400,100,100);
-		cereal = new Ingredients("cerealbox.png",700,420,100,100);
-		pepper = new Ingredients("placeholder.png",490,400,20,40);
-		ingredients = new ArrayList<Ingredients>();
+		milk = new Ingredients("milk.png","milk",400,400,100,100);
+		cereal = new Ingredients("cerealbox.png","cereal",700,420,100,100);
+		cend = new Ingredients("placeholder.png","placeholder",490,400,20,40);
+		rec = new ArrayList<Recicpes>();
 		tap = setTap();
-		dish = "dish";
+		dish = 0;
+		adding = 0;
+		tapper=true;
+		stopmult=true;
+		first=true;
+		setRec();
+	}
+
+	private void setRec() {
+		// TODO Auto-generated method stub
+		rec.add(new Recicpes("cereal", setCerealArray(), 50,50,Color.CYAN));
+		rec.add(new Recicpes("cake", setCakeArray(), 50, 75,Color.CYAN));
+		//rec.add(new Recicpes("placeholder",setCakeArray(),50,75,Color.CYAN));
+
+	}
+
+	private ArrayList<Ingredients> setCakeArray() {
+		// TODO Auto-generated method stub
+		ArrayList <Ingredients>temp  = new ArrayList <Ingredients>();
+		temp.add(new Ingredients("sugar", "filename"));	
+		temp.add(new Ingredients("flour", "filename"));	
+
+		temp.add(milk);	
+		temp.add(new Ingredients("eggs", "filename"));	
+
+	
+		return temp;
+	}
+
+	private ArrayList <Ingredients> setCerealArray() {
+		// TODO Auto-generated method stub
+		ArrayList <Ingredients>temp  = new ArrayList <Ingredients>();
+		temp.add(milk);
+		temp.add(cereal);
+		temp.add(new Ingredients("end", "filename"));
+				return temp;
 	}
 
 	public void screen(Graphics g2d) {
@@ -57,7 +95,6 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 			g2d.setColor(Color.WHITE);
 		g2d.drawString("game", 500, 400);
 //		ArrayTest(g2d);
-		getIngredients();
 		drawIngredients(g2d);
 		cookSequence(g2d);
 		break;
@@ -74,11 +111,12 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 	
 	public ArrayList <Tap> setTap(){
 		ArrayList <Tap> temp = new ArrayList <Tap>();
-		int x=100;
+		int x=400;
 		int y=100;
-			for(int i=0; i<4; i++){
+			for(int i=0; i<0; i++){
 				temp.add(new Tap(i+x,y,20,20, Color.WHITE));
 				x+=60;
+				//System.out.println("working");
 			}
 		return temp;
 	}
@@ -135,6 +173,10 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		g2d.drawString(credits.getS(), credits.getX(), credits.getY());
 		g2d.setColor(ul.getC());
 		g2d.drawString(ul.getS(), ul.getX(), ul.getY());
+		
+		
+		//System.out.println(rec.get(dish));
+		
 		if(help==1) {
 			play.setC(Color.WHITE);
 		}
@@ -154,42 +196,68 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 	}
 	
 	public void selectionScreen(Graphics g2d) {
-		g2d.setColor(scereal.getC());
-		g2d.drawString(scereal.getS(), scereal.getX(), scereal.getY());
-		g2d.setColor(scake.getC());
-		g2d.drawString(scake.getS(), scake.getX(), scake.getY());
-		if (help==1) {
-			scereal.setC(Color.WHITE);
-		} else
-			scereal.setC(Color.CYAN);
-		if(help==2) {
-			scake.setC(Color.WHITE);
-		}else
-			scake.setC(Color.CYAN);
+//		g2d.setColor(scereal.getC());
+//		g2d.drawString(scereal.getS(), scereal.getX(), scereal.getY());
+//		g2d.setColor(scake.getC());
+//		g2d.drawString(scake.getS(), scake.getX(), scake.getY());
+//		if (help==1) {
+//			scereal.setC(Color.WHITE);
+//		} else
+//			scereal.setC(Color.CYAN);
+//		if(help==2) {
+//			scake.setC(Color.WHITE);
+//		}else
+//			scake.setC(Color.CYAN);
+//		
+//		g2d.setColor(Color.WHITE);
+		int x=100;
+		int y=150;
+		for(int i=0; i<rec.size(); i++) {
+			g2d.setColor(rec.get(i).getC());
+			g2d.drawString(rec.get(i).getName(), x, i+y);
+			y+=50;
+			if (help==i+1) {
+				rec.get(i).setC(Color.WHITE);
+				dish=i;
+		}	else {
+			rec.get(i).setC(Color.CYAN);
+		}
+		}
 	}
 	public void drawIngredients(Graphics g2d) {
-		for(int i = 0; i < ingredients.size(); i++) {
-				g2d.drawImage(new ImageIcon (ingredients.get(i).getS()).getImage(), ingredients.get(i).getX(), ingredients.get(i).getY(), ingredients.get(i).getWidth(), ingredients.get(i).getHeight(), getFocusCycleRootAncestor());
-				System.out.println("milk");
-			}
-		}
-	public void getIngredients() {
-		if(dish=="cereal") {
-			ingredients.add(milk);
-			ingredients.add(cereal);
+		for(Ingredients ing: rec.get(dish).getIngredients())
+			g2d.drawImage(ing.getImg().getImage(), getWidth()/rec.get(dish).getIngredients().size(),500, ing.getWidth(),ing.getHeight(),this);
 			
+			
+	/*	for(int i = 0; i < rec.get(dish).getIngredients().size(); i++) {
+				g2d.drawImage(new ImageIcon (ingredients.get(i).getS()).getImage(), ingredients.get(i).getX(), ingredients.get(i).getY(), ingredients.get(i).getWidth(), ingredients.get(i).getHeight(), getFocusCycleRootAncestor());
+				//System.out.println("milk");
+			}
+			*/
 		}
-		if(dish=="cake") {
-			ingredients.add(pepper);
-		}
-	}
+	
 	public void cookSequence(Graphics g2d) {
-		if (ingredients.get(0)==milk) {
-			System.out.println("Milkkkk");
+	/*	if (rec.get(dish)==milk||ingredients.get(0)==cereal) {
+			//System.out.println("Milkkkk");
 			g2d.setColor(Color.WHITE);
 			drawTap(g2d);
-			g2d.drawString("press the up arrow to pour", 500, 300);
+			g2d.drawString("press the up arrow to pour " + ingredients.get(0).getN(), 500, 300);
+			tapper=true;
 		}
+		if(ingredients.get(0)==cend) {
+			g2d.drawString("you did it! you made " + dish, 500, 300);
+		}
+		*/
+		if(rec.get(dish).getIngredients().get(0)==milk||rec.get(dish).getIngredients().get(0)==cereal) {
+			g2d.setColor(Color.WHITE);
+			drawTap(g2d);
+			tapper=true;
+			g2d.drawString("press the up arrow to pour " + rec.get(dish).getIngredients().get(0).getN(), 500, 300);
+		} else if(rec.get(dish).getIngredients().size()==1) {
+			g2d.drawString("you did it! you made " + rec.get(dish).getName(), 500, 300);
+		}
+		System.out.println("list of ingredients "+ rec.get(dish).getIngredients());
+		
 	}
 	
 
@@ -209,7 +277,7 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+//		dish++;
 		key= e.getKeyCode();
 		System.out.println(key);
 		if (screen=='S') {
@@ -231,33 +299,40 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		} else if (screen=='T') {
 			if(key==10) {
 				screen = 'G';
-				if(help==1) {
-					dish = "cereal";
-					help=1;
-					
-				}
-				else if(help==2) {
-					dish = "cake";
-					help=1;
-				}
 			}		
 		}
 		if(screen=='S'||screen=='T') {
 			if(key==40) {
 				help++;
-				System.out.println(help);
+				//System.out.println(help);
 			}
 			else if(key==38) {
 				help--;
-				System.out.println(help);
+				//System.out.println(help);
 			}
 			
 		}
 		if (screen=='G') {
-			if (key==38) {
+			
+			if (key==38&&tapper) {
 				
+				tap.add(0, new Tap(grr+tap.size(),100,20,20, Color.WHITE));
+				
+				grr+=30;
+				System.out.println(grr);
+				if(tap.size()==5) {
+					for(int i=0; i<5; i++) {
+						tap.remove(0);
+					}
+					grr=600;
+					rec.get(dish).getIngredients().remove(0);
+					//ingredients.remove(0);
+					tapper=false;
+					//System.out.println("ingredients:"+ ingredients.size());
+				}
 			}
 		}
+		
 		
 		
 	
@@ -270,6 +345,60 @@ public class Game  extends JPanel implements Runnable, KeyListener{
 		
 		
 		
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+		//System.out.println("clicked" +e.getX() +" y " +e.getY());
+//		switch (screen) {
+//		case 'T':
+//			for(int i=0; i<rec.size(); i++) {
+//				if(rec.get(i).collision(e.getX(), e.getY())) {
+//					dish=i;
+//					screen='G';
+//					break;
+//				}
+//			}
+//		}
+//		
+		}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 	

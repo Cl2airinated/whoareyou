@@ -2,14 +2,17 @@ package whoareyou;
 
 import java.awt.Color;
 
+import javax.swing.ImageIcon;
+
 public class Ingredients {
-	private String s;	
+	private String s,n;	
 	private int x,y;
 	private int width,height;
 //	private Color c;
 		public Ingredients()
 		{
 			s="";
+			n="";
 			x=0;
 			y=0;
 			width=0;
@@ -17,15 +20,37 @@ public class Ingredients {
 //			c=Color.cyan;
 		}
 
-		public Ingredients(String s1, int x1, int y1,int w, int h) {
+		public Ingredients(String s1, String n1, int x1, int y1,int w, int h) {
 			s=s1;
+			n=n1;
 			x=x1;
 			y=y1;
 			width=w;
 			height=h;
 //			c=c1;
 		}
+		public Ingredients(String s1, String n1) {
+			s=s1;
+			n=n1;
+			x=0;
+			y=0;
+			width=100;
+			height=100;
+//			c=c1;
+		}
 		
+		public String toString() {
+			return n;
+		}
+		
+		public String getN() {
+			return n;
+		}
+
+		public void setN(String n) {
+			this.n = n;
+		}
+
 		public int getX() {
 			return x;
 		}
@@ -65,6 +90,9 @@ public class Ingredients {
 //		public void setC(Color c) {
 //			this.c = c;
 //		}
+		public ImageIcon getImg() {
+			return new ImageIcon(s);
+		}
 
 		public String getS() {
 			return s;
