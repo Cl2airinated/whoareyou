@@ -62,7 +62,7 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 		ArrayList <Ingredients>temp  = new ArrayList <Ingredients>();
 		temp.add(new Ingredients("sugar", "filename"));	
 		temp.add(new Ingredients("flour", "filename"));	
-
+		temp.add(cereal);
 		temp.add(milk);	
 		temp.add(new Ingredients("eggs", "filename"));	
 
@@ -75,7 +75,7 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 		ArrayList <Ingredients>temp  = new ArrayList <Ingredients>();
 		temp.add(milk);
 		temp.add(cereal);
-		temp.add(new Ingredients("end", "filename"));
+		temp.add(new Ingredients("tp.png","end"));
 				return temp;
 	}
 
@@ -225,8 +225,13 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 		}
 	}
 	public void drawIngredients(Graphics g2d) {
-		for(Ingredients ing: rec.get(dish).getIngredients())
-			g2d.drawImage(ing.getImg().getImage(), getWidth()/rec.get(dish).getIngredients().size(),500, ing.getWidth(),ing.getHeight(),this);
+		int x = 100;
+		for(Ingredients ing: rec.get(dish).getIngredients()) {
+			g2d.drawImage(ing.getImg().getImage(), x, ing.getWidth(), ing.getWidth(), ing.getHeight(), getFocusCycleRootAncestor());
+			
+			x+=2-00;
+		}
+			
 			
 			
 	/*	for(int i = 0; i < rec.get(dish).getIngredients().size(); i++) {
