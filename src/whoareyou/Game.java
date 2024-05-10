@@ -84,7 +84,8 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 		case 'S':
 			drawStartScreen(g2d);
 			//test
-			
+			System.out.println(getWidth());
+			System.out.println(getHeight());
 			break;
 		case 'T':
 			g2d.setColor(Color.WHITE);
@@ -229,7 +230,7 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 		for(Ingredients ing: rec.get(dish).getIngredients()) {
 			g2d.drawImage(ing.getImg().getImage(), x, ing.getWidth(), ing.getWidth(), ing.getHeight(), getFocusCycleRootAncestor());
 			
-			x+=2-00;
+			x+=100;
 		}
 			
 			
