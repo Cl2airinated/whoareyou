@@ -20,6 +20,7 @@ public class Buttons {
 			c=Color.cyan;
 		}
 
+		
 		public Buttons(String s1, int x1, int y1,Color c1) {
 			s=s1;
 			x=x1;
@@ -67,6 +68,10 @@ public class Buttons {
 
 		public void setC(Color c) {
 			this.c = c;
+		}
+		
+		public ImageIcon getImg() {
+			return new ImageIcon(s);
 		}
 
 		public String getS() {

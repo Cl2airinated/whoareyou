@@ -12,13 +12,18 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 
 	private ArrayList <Recicpes> rec;
 	private ArrayList <Tap> tap;
+	//private ArrayList <Background> bgs;
+	private ArrayList <Background> bgs;
+	private ArrayList <Wood> bowls;
 	private BufferedImage back; 
-	private Buttons play, credits, ul, scereal, scake;
+	private Buttons play, credits, ul, scereal, scake, kea;
 	private int key, help, grr, adding; 
 	private char screen;
 	private Ingredients milk, cereal, cend;
 	private int dish;
 	private boolean tapper, stopmult,first;
+	private String bgee, bole, smartie;
+//	private Background kitchen1;
 
 	
 	public Game() {
@@ -33,20 +38,34 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 		play = new Buttons("play",100,150,Color.CYAN);
 		credits = new Buttons("credits",100,200,Color.CYAN);
 		ul = new Buttons("update log",100,250,Color.CYAN);
+		kea = new Buttons("upb.png",100,150,Color.CYAN);
 //		scereal = new Buttons ("cereal", 100,150,Color.CYAN);
 //		scake = new Buttons ("cake", 100,200,Color.CYAN);
 		help = 1;
-		milk = new Ingredients("milk.png","milk",400,400,100,100);
-		cereal = new Ingredients("cerealbox.png","cereal",700,420,100,100);
-		cend = new Ingredients("placeholder.png","placeholder",490,400,20,40);
+		milk = new Ingredients("milk.png","milk","pourmilk",0,550-418,314,418);
+		cereal = new Ingredients("cerealbox.png","cereal","pourcereal",0,550-500,437,522);
+		cend = new Ingredients("placeholder.png","placeholder","placeholder",490,400,20,40);
 		rec = new ArrayList<Recicpes>();
+		bgs= new ArrayList<Background>();
+		bowls= new ArrayList<Wood>();
 		tap = setTap();
 		dish = 0;
+		bgee= "";
+		bole= "";
+		smartie = "";
 		adding = 0;
 		tapper=true;
 		stopmult=true;
 		first=true;
 		setRec();
+		
+		bgs.add(new Background("kitchen1.png"));
+		bgs.add(new Background("blue.png"));
+		bgs.add(new Background("instructions.png"));
+		
+		bowls.add(new Wood("emptybowl.png","emptybowl",100,561-339 ,546,339));
+		bowls.add(new Wood("pourmilk.gif","pourmilk",100,561-561,546,561));
+		bowls.add(new Wood("pourcereal.gif","pourcereal",100,561-561,546,561));
 	}
 
 	private void setRec() {
@@ -73,16 +92,18 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 	private ArrayList <Ingredients> setCerealArray() {
 		// TODO Auto-generated method stub
 		ArrayList <Ingredients>temp  = new ArrayList <Ingredients>();
+		bole="emptybowl";
 		temp.add(milk);
 		temp.add(cereal);
 		temp.add(new Ingredients("tp.png","end"));
 				return temp;
 	}
-
+	
 	public void screen(Graphics g2d) {
 		switch (screen) {
 		case 'S':
 			drawStartScreen(g2d);
+			//g2d.drawImage(bowls.get(1).getImg().getImage(), bowls.get(1).getX(), bowls.get(1).getY(), bowls.get(1).getWidth(),bowls.get(1).getHeight(), getFocusCycleRootAncestor());
 			//test
 			System.out.println(getWidth());
 			System.out.println(getHeight());
@@ -94,10 +115,19 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 			break;
 		case 'G':
 			g2d.setColor(Color.WHITE);
+			g2d.setFont(new Font ("Consolas", Font.CENTER_BASELINE, 36));
 		g2d.drawString("game", 500, 400);
 //		ArrayTest(g2d);
+		drawBg(g2d);
 		drawIngredients(g2d);
+		drawBowl(g2d);
 		cookSequence(g2d);
+		break;
+		case 'I':
+		//g2d.setColor(Color.WHITE);
+		//g2d.drawString("lalala", 400, 200);
+			bgee="instructions.png";
+		drawBg(g2d);
 		break;
 		case 'C':
 		g2d.setColor(Color.WHITE);
@@ -197,20 +227,6 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 	}
 	
 	public void selectionScreen(Graphics g2d) {
-//		g2d.setColor(scereal.getC());
-//		g2d.drawString(scereal.getS(), scereal.getX(), scereal.getY());
-//		g2d.setColor(scake.getC());
-//		g2d.drawString(scake.getS(), scake.getX(), scake.getY());
-//		if (help==1) {
-//			scereal.setC(Color.WHITE);
-//		} else
-//			scereal.setC(Color.CYAN);
-//		if(help==2) {
-//			scake.setC(Color.WHITE);
-//		}else
-//			scake.setC(Color.CYAN);
-//		
-//		g2d.setColor(Color.WHITE);
 		int x=100;
 		int y=150;
 		for(int i=0; i<rec.size(); i++) {
@@ -226,21 +242,44 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 		}
 	}
 	public void drawIngredients(Graphics g2d) {
-		int x = 100;
+		int x = 800;
 		for(Ingredients ing: rec.get(dish).getIngredients()) {
-			g2d.drawImage(ing.getImg().getImage(), x, ing.getWidth(), ing.getWidth(), ing.getHeight(), getFocusCycleRootAncestor());
+			g2d.drawImage(ing.getImg().getImage(), x, ing.getY(), ing.getWidth(), ing.getHeight(), getFocusCycleRootAncestor());
 			
-			x+=100;
+			x+=50+ing.getWidth();
 		}
 			
 			
 			
-	/*	for(int i = 0; i < rec.get(dish).getIngredients().size(); i++) {
+	/*	 {
 				g2d.drawImage(new ImageIcon (ingredients.get(i).getS()).getImage(), ingredients.get(i).getX(), ingredients.get(i).getY(), ingredients.get(i).getWidth(), ingredients.get(i).getHeight(), getFocusCycleRootAncestor());
 				//System.out.println("milk");
 			}
 			*/
 		}
+	
+	public boolean drawBg(Graphics g2d) {
+		int temp = 0;
+		for(int i = 0; i < bgs.size(); i++) {
+			if (bgee==bgs.get(i).getS()) {
+				temp=i;
+			}
+		}
+		//System.out.println(getWidth()+ " "+ getHeight());
+		g2d.drawImage(bgs.get(temp).getImg().getImage(), 0, 0, getWidth(), getHeight(), getFocusCycleRootAncestor());
+		return true;
+	}
+	public boolean drawBowl(Graphics g2d) {
+		int temp = 0;
+		for(int i = 0; i < bowls.size(); i++) {
+			if (bole==bowls.get(i).getN()) {
+				temp=i;
+			}
+		}
+		//System.out.println(getWidth()+ " "+ getHeight());
+		g2d.drawImage(bowls.get(temp).getImg().getImage(), bowls.get(temp).getX(), bowls.get(temp).getY(), bowls.get(temp).getWidth(), bowls.get(temp).getHeight(), getFocusCycleRootAncestor());
+		return true;
+	}
 	
 	public void cookSequence(Graphics g2d) {
 	/*	if (rec.get(dish)==milk||ingredients.get(0)==cereal) {
@@ -254,13 +293,18 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 			g2d.drawString("you did it! you made " + dish, 500, 300);
 		}
 		*/
+		//g2d.drawImage((new ImageIcon("tb1.png").getImage()), 240, 550, 847, 144, getFocusCycleRootAncestor());
+		g2d.drawImage(kea.getImg().getImage(), kea.getX(), kea.getY(), 400, 400, getFocusCycleRootAncestor());
 		if(rec.get(dish).getIngredients().get(0)==milk||rec.get(dish).getIngredients().get(0)==cereal) {
+//			setKitchen1();
+			bgee="kitchen1.png";
 			g2d.setColor(Color.WHITE);
 			drawTap(g2d);
 			tapper=true;
-			g2d.drawString("press the up arrow to pour " + rec.get(dish).getIngredients().get(0).getN(), 500, 300);
+			g2d.drawString("pour the " + rec.get(dish).getIngredients().get(0).getN() + " by pressing the ↑ button", 10, 620);
+			//System.out.print(bole);
 		} else if(rec.get(dish).getIngredients().size()==1) {
-			g2d.drawString("you did it! you made " + rec.get(dish).getName(), 500, 300);
+			g2d.drawString("you did it! you made " + rec.get(dish).getName(), 410, 610);
 		}
 		System.out.println("list of ingredients "+ rec.get(dish).getIngredients());
 		
@@ -304,22 +348,13 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 			}
 		} else if (screen=='T') {
 			if(key==10) {
-				screen = 'G';
+				screen = 'I';
 			}		
-		}
-		if(screen=='S'||screen=='T') {
-			if(key==40) {
-				help++;
-				//System.out.println(help);
+		} else if (screen=='I') {
+			if (key==10) {
+				screen = 'G';
 			}
-			else if(key==38) {
-				help--;
-				//System.out.println(help);
-			}
-			
-		}
-		if (screen=='G') {
-			
+		} else if (screen=='G') {			
 			if (key==38&&tapper) {
 				
 				tap.add(0, new Tap(grr+tap.size(),100,20,20, Color.WHITE));
@@ -327,6 +362,7 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 				grr+=30;
 				System.out.println(grr);
 				if(tap.size()==5) {
+					bole = rec.get(dish).getIngredients().get(0).getP();
 					for(int i=0; i<5; i++) {
 						tap.remove(0);
 					}
@@ -338,10 +374,17 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 				}
 			}
 		}
-		
-		
-		
-	
+
+		if(screen=='S'||screen=='T') {
+			if(key==40) {
+				help++;
+				//System.out.println(help);
+			}
+			else if(key==38) {
+				help--;
+				//System.out.println(help);
+			}			
+		}	
 	}
 
 
