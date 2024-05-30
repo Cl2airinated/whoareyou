@@ -1,19 +1,17 @@
 package whoareyou;
 
-import java.awt.Color;
-
 import javax.swing.ImageIcon;
 
-public class Ingredients {
-	private String s,n,p;	
+public class Wood {
+
+	private String s,n;	
 	private int x,y;
 	private int width,height;
 //	private Color c;
-		public Ingredients()
+		public Wood()
 		{
 			s="";
 			n="";
-			p="";
 			x=0;
 			y=0;
 			width=0;
@@ -21,25 +19,16 @@ public class Ingredients {
 //			c=Color.cyan;
 		}
 
-		public Ingredients(String s1, String n1, String p1, int x1, int y1,int w, int h) {
+		public Wood(String s1, String n1, int x1, int y1,int w, int h) {
 			s=s1;
 			n=n1;
-			p=p1;
 			x=x1;
 			y=y1;
 			width=w;
 			height=h;
 //			c=c1;
 		}
-		public String getP() {
-			return p;
-		}
-
-		public void setP(String p) {
-			this.p = p;
-		}
-
-		public Ingredients(String s1, String n1) {
+		public Wood(String s1, String n1) {
 			s=s1;
 			n=n1;
 			x=0;
